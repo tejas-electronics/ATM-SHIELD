@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATM SHIELD | Presentation Learning App</title>
+<style>
+:root{--bg:#07111f;--panel:#101e31;--panel2:#142740;--line:#263c56;--text:#eef5ff;--muted:#a9bad0;--blue:#55a6ff;--cyan:#53dfdc;--green:#62d6a4;--yellow:#ffd36e}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#142d4c 0,#07111f 42%);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{padding:28px 18px 20px;text-align:center;border-bottom:1px solid var(--line)}
+.kicker{color:var(--cyan);font-weight:700;letter-spacing:.16em;font-size:.75rem}
+h1{font-size:clamp(2rem,6vw,3.4rem);margin:7px 0 2px;letter-spacing:.04em}
+header p{color:var(--muted);margin:5px auto;max-width:650px}
+.wrap{max-width:1050px;margin:auto;padding:20px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px}
+nav button,.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:650;white-space:nowrap}
+nav button.active,.btn.primary{background:linear-gradient(120deg,#1763a9,#167c91);border-color:#3e9dd0}
+section{display:none}section.active{display:block}
+.card{background:linear-gradient(145deg,rgba(20,39,64,.96),rgba(12,27,45,.96));border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0;box-shadow:0 12px 35px #0003}
+.tag{display:inline-block;color:var(--cyan);font-size:.76rem;font-weight:800;letter-spacing:.1em}
+h2{margin:5px 0 12px;font-size:1.55rem}h3{margin:8px 0;color:#dcecff}
+.muted{color:var(--muted)}.big{font-size:1.15rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.tile{background:#0b192a;border:1px solid var(--line);border-radius:14px;padding:14px}
+.tile strong{display:block;color:var(--cyan);margin-bottom:4px}
+.script{font-size:1.08rem;line-height:1.8;border-left:3px solid var(--blue);padding:8px 0 8px 16px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0}
+.step{flex:1 1 130px;text-align:center;background:#0b192a;border:1px solid #315273;border-radius:12px;padding:14px 8px;font-weight:700}
+.arrow{color:var(--cyan);font-size:1.4rem}
+.pill{display:inline-block;padding:4px 9px;border-radius:99px;background:#183752;color:#bfe5ff;font-size:.8rem}
+.progress{height:8px;background:#26384c;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .2s}
+button:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.answer{display:none;color:#d7f5e8;background:#102f2a;border:1px solid #276d5b;padding:12px;border-radius:12px;margin-top:10px}.answer.show{display:block}
+.quiz-options{display:grid;gap:8px;margin:12px 0}.quiz-options button{text-align:left;white-space:normal}
+.correct{border-color:var(--green)!important;background:#12372e!important}.wrong{border-color:#e47b7b!important;background:#3a2027!important}
+footer{text-align:center;color:var(--muted);padding:25px 10px;font-size:.85rem}
+@media(max-width:600px){.wrap{padding:13px}.card{padding:16px}.script{font-size:1rem}}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">SMART INDIA HACKATHON 2026 · SIH26184</div>
+  <h1>ATM <span style="color:var(--cyan)">SHIELD</span></h1>
+  <p>Learn the idea, understand each slide, practise your speech and test your knowledge.</p>
+  <p><span class="pill">AI + GIS</span> <span class="pill">Cybercrime risk intelligence</span></p>
+</header>
+<div class="wrap">
+<nav aria-label="App sections">
+ <button class="active" data-tab="overview">Overview</button>
+ <button data-tab="slides">Slide guide</button>
+ <button data-tab="workflow">How it works</button>
+ <button data-tab="terms">Easy glossary</button>
+ <button data-tab="quiz">Practice quiz</button>
+</nav>
+
+<section id="overview" class="active">
+ <div class="card">
+  <span class="tag">THE IDEA IN ONE MINUTE</span>
+  <h2>What is ATM SHIELD?</h2>
+  <p class="big">ATM SHIELD is an AI-based platform that predicts areas where suspicious ATM cash withdrawals may be more likely.</p>
+  <p class="muted">It studies cybercrime complaint patterns, estimates area-level risk and displays the result on a map for authorised teams to review.</p>
+ </div>
+ <div class="grid">
+  <div class="tile"><strong>THE PROBLEM</strong>Teams need help identifying locations that may need attention.</div>
+  <div class="tile"><strong>OUR SOLUTION</strong>Use data patterns and machine learning to estimate risk.</div>
+  <div class="tile"><strong>THE OUTPUT</strong>A colour-coded map, trends and review alerts.</div>
+ </div>
+ <div class="card">
+  <h3>Remember this sentence</h3>
+  <p class="script">“ATM SHIELD uses AI to predict high-risk ATM withdrawal areas and displays them on a map, helping cybercrime teams take action earlier.”</p>
+  <button class="btn primary" onclick="speak('ATM SHIELD uses AI to predict high-risk ATM withdrawal areas and displays them on a map, helping cybercrime teams take action earlier.')">▶ Listen</button>
+  <button class="btn" onclick="speechSynthesis.cancel()">Stop</button>
+ </div>
+ <div class="card">
+  <h3>Presentation map</h3>
+  <div class="grid">
+   <div class="tile"><strong>1 · INTRODUCTION</strong>What are we building?</div>
+   <div class="tile"><strong>2 · SOLUTION</strong>What does it do?</div>
+   <div class="tile"><strong>3 · TECHNOLOGY</strong>How does it work?</div>
+   <div class="tile"><strong>4 · FEASIBILITY</strong>Can we build it?</div>
+   <div class="tile"><strong>5 · IMPACT</strong>Who benefits?</div>
+   <div class="tile"><strong>6 · REFERENCES</strong>What did we refer to?</div>
+  </div>
+ </div>
+</section>
+
+<section id="slides">
+ <div class="card">
+  <span class="tag">PRESENTATION PRACTICE</span>
+  <h2 id="slideTitle">Slide 1 — Introduction</h2>
+  <div class="progress"><div class="bar" id="slideProgress"></div></div>
+  <p class="muted" id="slideTime">About 25 seconds</p>
+  <h3>What to say</h3>
+  <p class="script" id="slideScript"></p>
+  <button class="btn primary" id="listenBtn">▶ Listen to script</button>
+  <button class="btn" onclick="speechSynthesis.cancel()">Stop audio</button>
+  <h3>What the judges should understand</h3>
+  <p id="slidePoint"></p>
+  <div class="tile"><strong>Transition to next slide</strong><span id="slideTransition"></span></div>
+  <div style="display:flex;justify-content:space-between;gap:10px;margin-top:18px">
+   <button class="btn" id="prevSlide">← Previous</button>
+   <span class="pill" id="slideCount">1 / 6</span>
+   <button class="btn primary" id="nextSlide">Next →</button>
+  </div>
+ </div>
+</section>
+
+<section id="workflow">
+ <div class="card">
+  <span class="tag">TECHNICAL APPROACH</span><h2>How does ATM SHIELD work?</h2>
+  <p class="muted">Understand this simple sequence. This is the core of your technical explanation.</p>
+  <div class="flow">
+   <div class="step">① Sample data</div><div class="arrow">→</div>
+   <div class="step">② Data cleaning</div><div class="arrow">→</div>
+   <div class="step">③ ML prediction</div><div class="arrow">→</div>
+   <div class="step">④ Risk heatmap</div><div class="arrow">→</div>
+   <div class="step">⑤ Dashboard + human review</div>
+  </div>
+ </div>
+ <div class="grid">
+  <div class="tile"><strong>1. DATA INPUT</strong>Start with synthetic or approved anonymised complaint statistics.</div>
+  <div class="tile"><strong>2. PREPROCESS</strong>Clean, check and organise the records so the model can analyse them.</div>
+  <div class="tile"><strong>3. ML ENGINE</strong>Use patterns in the data to estimate risk levels.</div>
+  <div class="tile"><strong>4. GIS MAP</strong>Show estimated risk by area using map colours.</div>
+  <div class="tile"><strong>5. DASHBOARD</strong>Show filters, trends and alerts for authorised review.</div>
+ </div>
+ <div class="card"><h3>Technology stack</h3>
+  <div class="grid">
+   <div class="tile"><strong>Python</strong>Main programming language.</div>
+   <div class="tile"><strong>Pandas + NumPy</strong>Organise and process data.</div>
+   <div class="tile"><strong>Scikit-learn</strong>Build a basic machine-learning model.</div>
+   <div class="tile"><strong>Folium</strong>Create interactive maps.</div>
+   <div class="tile"><strong>Streamlit</strong>Build the dashboard.</div>
+   <div class="tile"><strong>SQLite</strong>Store prototype data.</div>
+  </div>
+ </div>
+ <div class="card"><strong style="color:var(--yellow)">Important limitation</strong><p>A risk score is only an analytical warning signal. It is not proof of crime. Human review is essential, and demo results using sample data must be labelled as simulated.</p></div>
+</section>
+
+<section id="terms">
+ <div class="card"><span class="tag">SIMPLE DEFINITIONS</span><h2>Easy glossary</h2><p class="muted">Tap a term to reveal a simple explanation.</p>
+  <div id="glossary"></div>
+ </div>
+</section>
+
+<section id="quiz">
+ <div class="card">
+  <span class="tag">CHECK YOUR UNDERSTANDING</span><h2>Quick practice quiz</h2>
+  <p class="muted">Choose an answer. You will get instant feedback.</p>
+  <div class="progress"><div class="bar" id="quizProgress"></div></div>
+  <p id="quizCount" class="pill">Question 1 / 7</p>
+  <h3 id="quizQuestion"></h3>
+  <div class="quiz-options" id="quizOptions"></div>
+  <p id="quizFeedback" aria-live="polite"></p>
+  <button class="btn primary" id="nextQuestion" disabled>Next question →</button>
+  <p id="quizScore" class="big"></p>
+ </div>
+</section>
+<footer>ATM SHIELD · SIH 2026 · Learning companion · Prototype concept uses sample data</footer>
+</div>
+<script>
+const slides=[
+ {title:"Slide 1 — Introduction",time:"About 25 seconds",script:"Good morning, respected judges. We are here to present our idea, ATM SHIELD, under problem statement SIH26184. ATM SHIELD is an AI-based system designed to predict areas where suspicious ATM cash withdrawals are more likely to happen. Our goal is to help cybercrime investigation teams identify potential hotspots and take action earlier.",point:"Your project predicts risky locations, not individual criminals.",transition:"Now, let me explain how our solution works."},
+ {title:"Slide 2 — Proposed Solution",time:"About 40 seconds",script:"ATM SHIELD has three main features. First, predictive analytics. It studies previous cybercrime complaint patterns based on location and time. Second, a risk heatmap. It displays possible high-risk areas using different colours on a map. Third, actionable alerts. It informs authorised teams when risk levels change. This helps investigation teams identify areas that may need attention instead of only analysing complaints after incidents happen.",point:"AI analysis + map + alerts. These are the three main features.",transition:"Next, let's see the technology behind this system."},
+ {title:"Slide 3 — Technical Approach",time:"About 45 seconds",script:"Our system follows five simple steps. First, we collect sample cybercrime complaint data. Second, we clean and organise the data. Third, our machine learning model analyses the patterns and estimates the risk. Fourth, the results are displayed on a geographical heatmap. Finally, a dashboard shows the risk levels, trends and alerts. We are planning to use Python, Pandas, Scikit-learn, Folium and Streamlit to develop this prototype.",point:"Explain how sample data becomes a risk map. Remember: data → cleaning → ML → map → dashboard.",transition:"Now, let's see whether this idea is practically possible."},
+ {title:"Slide 4 — Feasibility and Viability",time:"About 35 seconds",script:"ATM SHIELD is technically feasible because we can develop it using free and open-source software. We don't need any special hardware. Initially, we will use sample data to build and test our prototype. Our main challenges are limited real-world data, prediction accuracy and data privacy. To address these challenges, we will test our model, protect the data and keep human verification in the process.",point:"It is achievable as a prototype. Real-world deployment needs approval, secure access and testing.",transition:"Let's look at the expected benefits."},
+ {title:"Slide 5 — Impact and Benefits",time:"About 30 seconds",script:"ATM SHIELD can benefit three major groups. For investigation teams, it helps identify high-risk areas. For banks, it supports secure sharing of hotspot alerts. For citizens, it supports faster action against potential financial crimes. Overall, our aim is to move from reacting to cybercrime towards identifying possible risks earlier.",point:"The intended beneficiaries are investigation teams, banks and citizens.",transition:"Finally, these are the references we used for our proposed solution."},
+ {title:"Slide 6 — Research and References",time:"About 15 seconds",script:"These are the official problem statement and technical references we considered while planning ATM SHIELD. We referred to the SIH portal, Scikit-learn, Streamlit and Folium documentation. Thank you for giving us this opportunity. We are happy to answer your questions.",point:"Show that your idea is based on the challenge and relevant technical documentation.",transition:"End with a confident thank you."}
+];
+let slideIndex=0;
+function speak(text){if(!('speechSynthesis'in window)){alert('Audio playback is not supported in this browser.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.rate=.92;u.lang='en-IN';speechSynthesis.speak(u)}
+function showSlide(){let s=slides[slideIndex];document.getElementById('slideTitle').textContent=s.title;document.getElementById('slideTime').textContent=s.time;document.getElementById('slideScript').textContent=s.script;document.getElementById('slidePoint').textContent=s.point;document.getElementById('slideTransition').textContent=s.transition;document.getElementById('slideCount').textContent=(slideIndex+1)+' / 6';document.getElementById('slideProgress').style.width=((slideIndex+1)/6*100)+'%';document.getElementById('listenBtn').onclick=()=>speak(s.script);document.getElementById('prevSlide').disabled=slideIndex===0;document.getElementById('nextSlide').textContent=slideIndex===5?'Back to first ↺':'Next →'}
+document.getElementById('prevSlide').onclick=()=>{slideIndex=Math.max(0,slideIndex-1);showSlide()};
+document.getElementById('nextSlide').onclick=()=>{slideIndex=(slideIndex+1)%slides.length;showSlide()};
+const terms=[["AI (Artificial Intelligence)","Computer systems that find patterns or make useful predictions from data."],["Machine Learning","A method where a computer learns patterns from examples in data."],["Predictive analytics","Using past data and patterns to estimate what may happen."],["GIS","Geographic Information System — technology used to display information on maps."],["Heatmap","A map that uses colours to show different levels, such as estimated risk."],["Synthetic data","Artificially created sample data used for testing, not actual people's records."],["Anonymised data","Data changed to remove details that identify a person."],["False positive","When the system flags something as risky but it is not actually a problem."]];
+document.getElementById('glossary').innerHTML=terms.map((t,i)=>`<div class="tile" style="margin:8px 0"><button class="btn" style="width:100%;text-align:left" onclick="this.nextElementSibling.classList.toggle('show')">${t[0]}　＋</button><div class="answer">${t[1]}</div></div>`).join('');
+const qs=[
+ ["What does ATM SHIELD predict?",["The identity of criminals","Potential high-risk withdrawal areas","The amount of cash inside every ATM"],1,"It estimates risk by area; it does not identify people."],
+ ["What are the three main features?",["Predictive analytics, heatmap and alerts","Camera, alarm and fingerprint","Website, payment and ATM card"],0,"Those are the three features explained on Slide 2."],
+ ["What does the heatmap show?",["Personal bank balances","ATM passwords","Different estimated risk levels by area"],2,"The map uses colours to show area-level risk."],
+ ["What is the role of Scikit-learn?",["Build machine-learning models","Design the presentation","Send bank transfers"],0,"Scikit-learn provides tools for machine learning."],
+ ["What data will the first prototype use?",["Private bank records without permission","Synthetic or approved anonymised data","Random personal details"],1,"Start with sample data. Real data requires official authorisation."],
+ ["Does a high-risk score prove a crime happened?",["Yes, always","No, it is only a signal for human review","It identifies the suspect"],1,"A risk score is not proof or an accusation."],
+ ["Who may benefit from the platform?",["Only ATM manufacturers","Investigation teams, banks and citizens","Only software developers"],1,"The intended benefits include all three groups."]
+];
+let qi=0,score=0,answered=false;
+function renderQuiz(){answered=false;let q=qs[qi];document.getElementById('quizCount').textContent=`Question ${qi+1} / ${qs.length}`;document.getElementById('quizProgress').style.width=(qi/qs.length*100)+'%';document.getElementById('quizQuestion').textContent=q[0];document.getElementById('quizFeedback').textContent='';document.getElementById('quizScore').textContent='';document.getElementById('nextQuestion').disabled=true;document.getElementById('nextQuestion').textContent=qi===qs.length-1?'See score':'Next question →';document.getElementById('quizOptions').innerHTML=q[1].map((a,i)=>`<button class="btn" data-i="${i}">${String.fromCharCode(65+i)}. ${a}</button>`).join('');document.querySelectorAll('#quizOptions button').forEach(b=>b.onclick=()=>choose(+b.dataset.i))}
+function choose(n){if(answered)return;answered=true;let q=qs[qi],buttons=[...document.querySelectorAll('#quizOptions button')];buttons.forEach((b,i)=>{b.disabled=true;if(i===q[2])b.classList.add('correct');else if(i===n)b.classList.add('wrong')});if(n===q[2]){score++;document.getElementById('quizFeedback').textContent='Correct! '+q[3]}else document.getElementById('quizFeedback').textContent='Not quite. '+q[3];document.getElementById('nextQuestion').disabled=false}
+document.getElementById('nextQuestion').onclick=()=>{if(qi<qs.length-1){qi++;renderQuiz()}else{document.getElementById('quizQuestion').textContent='Practice complete!';document.getElementById('quizOptions').innerHTML='';document.getElementById('quizFeedback').textContent='Your score: '+score+' / '+qs.length;document.getElementById('quizProgress').style.width='100%';document.getElementById('nextQuestion').textContent='Try again';document.getElementById('nextQuestion').disabled=false;document.getElementById('nextQuestion').onclick=()=>{qi=0;score=0;document.getElementById('nextQuestion').onclick=nextQuiz;renderQuiz()}}};
+function nextQuiz(){qi=0;score=0;renderQuiz()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('section').forEach(s=>s.classList.toggle('active',s.id===b.dataset.tab));speechSynthesis.cancel()});
+showSlide();renderQuiz();
+</script>
+</body>
+</html>

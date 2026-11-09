@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ATM SHIELD - an educational prototype for area-level ATM withdrawal risk awareness.">
+  <title>ATM SHIELD | Project Prototype</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #0b1220; color: #edf2f7; }
+    main { max-width: 900px; margin: 0 auto; padding: 64px 22px; }
+    .tag { color: #7dd3fc; letter-spacing: .12em; font-size: 12px; font-weight: bold; }
+    h1 { font-size: clamp(38px, 7vw, 64px); margin: 14px 0; }
+    p { color: #cbd5e1; line-height: 1.7; max-width: 720px; }
+    .links { display: flex; flex-wrap: wrap; gap: 14px; margin: 32px 0; }
+    a { color: #07111f; background: #7dd3fc; text-decoration: none; padding: 14px 20px; border-radius: 9px; font-weight: bold; }
+    a.secondary { color: #e2e8f0; background: #1e293b; border: 1px solid #475569; }
+    .note { border-left: 3px solid #fbbf24; padding: 12px 16px; background: #172033; border-radius: 6px; }
+    footer { color: #94a3b8; margin-top: 55px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="tag">SIH 2026 · SIH26184 · CYBERSECURITY</div>
+    <h1>ATM SHIELD</h1>
+    <h2>Predicting High-Risk ATM Withdrawal Areas</h2>
+    <p>
+      ATM SHIELD is a proposed area-level risk-awareness system that explores
+      complaint patterns across locations and time to help authorised teams
+      identify areas that may need closer attention.
+    </p>
+    <div class="links">
+      <a href="demo/ATM_SHIELD_Simple_Judges_Demo.html">Open Interactive Demo</a>
+      <a class="secondary" href="learning-app/ATM_SHIELD_Learning_App.html">Open Learning App</a>
+      <a class="secondary" href="docs/project-overview.md">Project Documentation</a>
+    </div>
+    <p class="note">
+      <strong>Prototype notice:</strong> The current interactive demo uses
+      fictional sample data. It is not connected to live ATM, bank, police,
+      or cybercrime systems. A risk score is only an indicator for review,
+      never proof of wrongdoing.
+    </p>
+    <footer>ATM SHIELD · Student project prototype</footer>
+  </main>
+</body>
+</html>

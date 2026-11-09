@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATM SHIELD — Simple Demo</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1422;color:#eef5ff;font:15px/1.5 Arial,sans-serif}
+header{padding:18px 20px;background:#101f33;border-bottom:1px solid #29405b;display:flex;justify-content:space-between;align-items:center;gap:10px}
+h1{font-size:22px;margin:0;letter-spacing:1px}header small{color:#9db2ca}.demo{font-size:11px;color:#76e2b4;border:1px solid #32775f;padding:5px 9px;border-radius:20px}
+main{max-width:900px;margin:22px auto;padding:0 14px}.intro{margin-bottom:15px}.intro h2{margin:0 0 4px;font-size:21px}.muted{color:#9db2ca;font-size:13px}
+.warning{background:#332817;border:1px solid #80602c;color:#ffe0a1;border-radius:9px;padding:10px 12px;font-size:12px;margin:14px 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.card,.panel{background:#122238;border:1px solid #2a415d;border-radius:12px;padding:14px}.card span{display:block;color:#9db2ca;font-size:11px}.card strong{font-size:26px;display:block;margin-top:4px}.red{color:#ff7883}.yellow{color:#ffd071}.green{color:#71ddb0}
+.panel{margin:12px 0}.panel h3{margin:0 0 10px;font-size:16px}.map{width:100%;height:auto;background:#0c1b2b;border-radius:9px;display:block}.zone{cursor:pointer}.zone circle{stroke:#fff;stroke-width:1.5;stroke-opacity:.55}.zone text{fill:#fff;font-size:12px;font-weight:bold;pointer-events:none}.zone.selected circle{stroke:#fff;stroke-width:4}
+.legend{display:flex;gap:15px;flex-wrap:wrap;color:#b8c8db;font-size:12px;margin-top:9px}.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+button{background:#176f91;border:0;color:white;padding:11px 14px;border-radius:9px;font-weight:bold;cursor:pointer;font-size:14px}button.secondary{background:#253b55}button:focus{outline:2px solid #fff}
+.details{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.score{font-size:29px;font-weight:bold}.tag{padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}.tag.high{background:#542b34;color:#ffadb4}.tag.medium{background:#51401f;color:#ffdf91}.tag.low{background:#1d493a;color:#9af0c7}
+.rows{display:grid;gap:8px}.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #2a415d}.row:last-child{border:0}.row small{display:block;color:#9db2ca}
+.alert{padding:11px;background:#0d1b2b;border:1px solid #2a415d;border-radius:9px;margin:8px 0;font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.hidden{display:none}.toast{margin-top:9px;color:#8fe8bf;font-size:13px;min-height:18px}
+footer{text-align:center;color:#8499b2;font-size:11px;padding:18px}
+@media(max-width:550px){.cards{grid-template-columns:1fr 1fr}.card strong{font-size:23px}header{padding:14px}h1{font-size:18px}}
+</style>
+</head>
+<body>
+<header><div><h1>ATM SHIELD</h1><small>Simple Risk Monitoring Demo</small></div><span class="demo">● DEMO MODE</span></header>
+<main>
+ <div class="intro"><h2>Dashboard Overview</h2><div class="muted">A simple view of possible ATM withdrawal risk areas.</div></div>
+ <div class="warning">SAMPLE DEMO ONLY — All areas, scores and complaints are fictional. No live crime or ATM data is used.</div>
+ <div class="cards">
+  <div class="card"><span>Areas checked</span><strong>6</strong></div>
+  <div class="card"><span>High-risk areas</span><strong class="red" id="highCount">2</strong></div>
+  <div class="card"><span>Sample complaints</span><strong id="complaints">67</strong></div>
+ </div>
+ <div class="panel">
+  <h3>1. Risk Map</h3>
+  <p class="muted">Click any circle to see its risk level.</p>
+  <svg class="map" viewBox="0 0 600 330" aria-label="Fictional risk map">
+   <rect width="600" height="330" fill="#102c39"/>
+   <path d="M0 80L600 245M0 260L600 75M110 0L250 330M420 0L350 330" stroke="#29485a" stroke-width="12" fill="none"/>
+   <path d="M0 165H600M300 0V330" stroke="#1e3c50" stroke-width="5" fill="none"/>
+   <g id="zones"></g>
+   <g id="demoEvents"></g>
+   <text x="15" y="315" fill="#a8c1d5" font-size="11">Illustrative map — not real locations</text>
+  </svg>
+  <div class="legend"><span><i style="background:#f15e70"></i>High risk</span><span><i style="background:#e8b84f"></i>Medium risk</span><span><i style="background:#4cc99a"></i>Low risk</span></div>
+ </div>
+ <div class="panel">
+  <h3>2. Selected Area</h3>
+  <div id="details"><p class="muted">Select a circle on the map.</p></div>
+ </div>
+ <div class="panel">
+  <h3>3. Recent Alerts</h3>
+  <div id="alerts"><div class="alert">High estimated risk in Sample Area 1 — needs human review.</div><div class="alert">Risk level updated in Sample Area 3 — demo notification.</div></div>
+  <div class="actions"><button id="alertBtn">Generate Demo Alert</button><button class="secondary" id="resetBtn">Reset Demo</button></div>
+  <div class="toast" id="message"></div>
+ </div>
+</main>
+<footer>ATM SHIELD · SIH26184 · Prototype concept · Synthetic sample data only</footer>
+<script>
+const original=[
+ {id:1,x:115,y:105,name:"Sample Area 1",score:86,count:18},
+ {id:2,x:285,y:95,name:"Sample Area 2",score:58,count:12},
+ {id:3,x:470,y:115,name:"Sample Area 3",score:79,count:15},
+ {id:4,x:170,y:235,name:"Sample Area 4",score:32,count:7},
+ {id:5,x:355,y:235,name:"Sample Area 5",score:44,count:9},
+ {id:6,x:510,y:245,name:"Sample Area 6",score:25,count:6}
+];
+let areas=original.map(a=>({...a})),selected=1,alerts=2;
+function level(s){return s>=75?"High":s>=50?"Medium":"Low"}
+function color(s){return s>=75?"#f15e70":s>=50?"#e8b84f":"#4cc99a"}
+function render(){
+ document.getElementById("zones").innerHTML=areas.map(a=>`<g class="zone ${a.id===selected?'selected':''}" data-id="${a.id}"><circle cx="${a.x}" cy="${a.y}" r="25" fill="${color(a.score)}" fill-opacity=".88"/><text x="${a.x}" y="${a.y+4}" text-anchor="middle">${a.id}</text><text x="${a.x}" y="${a.y+43}" text-anchor="middle">${a.name}</text></g>`).join("");
+ document.querySelectorAll(".zone").forEach(el=>el.onclick=()=>{selected=+el.dataset.id;render();});
+ document.getElementById("highCount").textContent=areas.filter(a=>a.score>=75).length;
+ document.getElementById("complaints").textContent=areas.reduce((n,a)=>n+a.count,0);
+ const a=areas.find(x=>x.id===selected);
+ document.getElementById("details").innerHTML=`<div class="details"><div><b>${a.name}</b><div class="muted">Fictional sample area</div></div><div class="score" style="color:${color(a.score)}">${a.score}/100</div></div><p><span class="tag ${level(a.score).toLowerCase()}">${level(a.score)} estimated risk</span></p><p class="muted">${a.count} sample complaints. This score is only a warning signal, not proof of crime.</p>`;
+}
+let demoNumber=0;
+let lastGeneratedArea=null;
+document.getElementById("alertBtn").onclick=()=>{
+ demoNumber++;
+ // Choose a different area from the previous generated alert whenever possible.
+ let choices=areas.filter(a=>a.id!==lastGeneratedArea);
+ let a=choices[Math.floor(Math.random()*choices.length)] || areas[0];
+ lastGeneratedArea=a.id;
+ // Generate a fresh illustrative score and complaint count.
+ let newScore=35+Math.floor(Math.random()*64);
+ if(newScore===a.score) newScore=newScore===98?97:newScore+1;
+ a.score=newScore;
+ a.count+=1+Math.floor(Math.random()*5);
+ selected=a.id;
+ render();
+
+ // Place a new, numbered event marker beside the selected area on the map.
+ const offsets=[[-34,-34],[34,-30],[-35,34],[36,34],[0,-48],[0,48]];
+ const [dx,dy]=offsets[(demoNumber-1)%offsets.length];
+ const marker=document.createElementNS("http://www.w3.org/2000/svg","g");
+ marker.setAttribute("class","demo-event");
+ marker.innerHTML=`<circle cx="${a.x+dx}" cy="${a.y+dy}" r="13" fill="#ffffff" stroke="#38d6ff" stroke-width="3"/><text x="${a.x+dx}" y="${a.y+4+dy}" text-anchor="middle" fill="#102238" font-size="10" font-weight="bold">${demoNumber}</text>`;
+ document.getElementById("demoEvents").appendChild(marker);
+
+ const el=document.createElement("div");
+ el.className="alert";
+ el.textContent=`Demo alert #${demoNumber}: ${a.name} — ${level(a.score)} estimated risk (${a.score}/100). Human review required.`;
+ document.getElementById("alerts").prepend(el);
+ document.getElementById("message").textContent=`New sample event #${demoNumber} added to the map.`;
+};
+document.getElementById("resetBtn").onclick=()=>{areas=original.map(a=>({...a}));selected=1;demoNumber=0;lastGeneratedArea=null;document.getElementById("demoEvents").innerHTML="";document.getElementById("alerts").innerHTML='<div class="alert">High estimated risk in Sample Area 1 — needs human review.</div><div class="alert">Risk level updated in Sample Area 3 — demo notification.</div>';document.getElementById("message").textContent="Demo reset.";render();};
+render();
+</script>
+</body>
+</html>
